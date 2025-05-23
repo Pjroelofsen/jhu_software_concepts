@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>My Flask Site</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="/" class="{% if active == 'home' %}active{% endif %}">Home</a>
+            <a href="/contact" class="{% if active == 'contact' %}active{% endif %}">Contact</a>
+            <a href="/projects" class="{% if active == 'projects' %}active{% endif %}">Projects</a>
+        </div>
+    </nav>
+    <hr>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

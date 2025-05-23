@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Phil Roelofsen</h1>
+<h2>Systems Engineer</h2>
+<div class="container">
+    <div class="left">
+        <p>Hello! I am Phil Roelofsen, a Systems Engineer at Northrop Grumman and student at Johns Hopkins University. My undergraduate degree is in Engineering Physics and I am currently pursuing a Masters Degree in Data Science. At Northrop Grumman, I am a Systems Integration and Test Engineer in the Microelectronics Design and Applications Business Unit.</p>
+    </div>
+    <div class="right">
+        <img src="{{ url_for('static', filename='images/profile.jpeg') }}" alt="Profile Picture" style="max_width: 300px; border-radius: 10px;">
+    </div>
+</div>
+{% endblock %}
