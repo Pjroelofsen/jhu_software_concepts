@@ -1,7 +1,7 @@
 ================================================================================
                         MODULE 1: PERSONAL PORTFOLIO WEBSITE
 ================================================================================
-
+ 
 PROJECT OVERVIEW
 This is a personal portfolio website built with Flask as part of the Johns 
 Hopkins University Software Concepts course. The website showcases my 
