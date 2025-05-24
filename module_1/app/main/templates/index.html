@@ -9,35 +9,43 @@
 <body>
     <div class="navbar">
         <div class="nav-links">
-            <a href="{{ url_for('main.index') }}" class="{% if active == 'home' %}active{% endif %}">Home</a>
+            <a href="{{ url_for('main.index') }}" class="{% if active == 'home' %}active{% endif %}">About</a>
             <a href="{{ url_for('main.contact') }}" class="{% if active == 'contact' %}active{% endif %}">Contact</a>
             <a href="{{ url_for('main.projects') }}" class="{% if active == 'projects' %}active{% endif %}">Projects</a>
         </div>
     </div>
     <div class="container">
-        <div class="profile-card">
-            <img src="{{ url_for('static', filename='images/profile.jpeg') }}" alt="Phillip Roelofsen">
-            <h1>Phillip Roelofsen</h1>
-            <p class="subtitle">Data Science Student</p>
-            
-            <div class="summary">
-                <h3>About Me</h3>
-                <p>I am a dedicated data science student at Johns Hopkins University, passionate about developing innovative solutions and expanding my technical expertise. Through my coursework and hands-on projects, I have gained experience in web development, software design principles, and modern programming frameworks.</p>
+        <div class="profile-layout">
+            <div class="bio-section">
+                <h1>Phillip Roelofsen</h1>
+                <p class="subtitle">Systems Engineer</p>
                 
-                <h3>Education</h3>
-                <p><strong>Johns Hopkins University [2025 - Present]</strong><br>
-                Master's in Data Science<br>
-                Currently pursuing advanced studies in data science methodologies and modern software concepts.</p>
-                
-                <p><strong>Tulane University [2018 - 2022]</strong><br>
-                Bachelor's in Engineering Physics<br>
-                A unique interdisciplinary degree that merges physics theory with engineering practice, preparing graduates for careers in research and development, technology innovation, and advanced engineering in fields such as semiconductors, optics, and emerging technologies.</p>
+                <div class="summary">
+                    <h3>About Me</h3>
+                    <p>I am a dedicated systems engineer at Northrop Grumman and data science student at Johns Hopkins University, passionate about developing innovative solutions and expanding my technical expertise. Through my coursework and hands-on projects, I have gained experience in web development, software design principles, and modern programming frameworks.</p>
+                    
+                    <h3>Education</h3>
+                    <p><strong>Johns Hopkins University [2025 - Present]</strong><br>
+                    Master's in Data Science<br>
+                    Currently pursuing advanced studies in data science methodologies and modern software concepts.</p>
+                    
+                    <p><strong>Tulane University [2018 - 2022]</strong><br>
+                    Bachelor's in Engineering Physics<br>
+                    A unique interdisciplinary degree that merges physics theory with engineering practice, preparing graduates for careers in research and development, technology innovation, and advanced engineering in emerging fields.</p>
 
-                <h3>Technical Skills</h3>
-                <p>I have experience working with Python, Flask web framework, and version control with Git. I am always eager to learn new technologies and best practices in software development.</p>
-                
-                <h3>Current Focus</h3>
-                <p>I am currently working on building a comprehensive portfolio of modern software projects that demonstrate my growing expertise in data science and artificial intelligence principles.</p>
+                    <h3>Technical Skills</h3>
+                    <p>I have experience working with Python, Flask web framework, and version control with Git. I am always eager to learn new technologies and best practices in software development.</p>
+                    
+                    <h3>Current Focus</h3>
+                    <p>I am currently working on building a comprehensive portfolio of modern software projects that demonstrate my growing expertise in data science and artificial intelligence principles.</p>
+
+                    <h3>Hobbies</h3>
+                    <p>I enjoy golfing, skiing, fishing, traveling, and more! I recently ran in the 2025 NYCRUNS Brooklyn Half Marathon.</p>
+                </div>
+            </div>
+            
+            <div class="image-section">
+                <img src="{{ url_for('static', filename='images/profile.jpeg') }}" alt="Phillip Roelofsen">
             </div>
         </div>
     </div>

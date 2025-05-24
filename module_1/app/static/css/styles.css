@@ -28,6 +28,8 @@ a:hover {
     justify-content: flex-end;
 }
 
+/* Removed .site-title styles since Portfolio title was removed */
+
 .nav-links a {
     color: white;
     margin: 0 15px;
@@ -51,18 +53,54 @@ a:hover {
 .container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     padding: 40px 20px;
+    min-height: calc(100vh - 120px);
 }
 
-.profile-card {
+.profile-layout {
     background: white;
-    padding: 30px;
+    padding: 40px;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
+    max-width: 1000px;
     width: 100%;
-    text-align: center;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.bio-section {
+    flex: 2;
+    text-align: left;
+}
+
+.bio-section h1 {
+    margin: 0 0 5px 0;
+    font-size: 32px;
+    color: #333;
+}
+
+.bio-section .subtitle {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.image-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20px;
+}
+
+.image-section img {
+    max-width: 250px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
 .contact-card {
@@ -73,6 +111,43 @@ a:hover {
     max-width: 600px;
     width: 100%;
     text-align: center;
+}
+
+.projects-card {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    text-align: left;
+}
+
+.projects-card h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 32px;
+    color: #333;
+}
+
+.project-item {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.project-item h3 {
+    color: #004080;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.project-item p {
+    line-height: 1.6;
+    margin-bottom: 10px;
 }
 
 .summary {
@@ -141,22 +216,23 @@ a:hover {
     background-color: #003366;
 }
 
-.profile-card img {
-    max-width: 150px;
-    border-radius: 50%;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.github-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
 }
 
-.profile-card h1 {
-    margin: 10px 0 5px;
-    font-size: 28px;
+.github-btn:hover {
+    background-color: #555;
 }
 
-.profile-card .subtitle {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 20px;
+.github-btn:visited {
+    color: white;
 }
 
 .linkedin-btn {
@@ -178,12 +254,26 @@ a:hover {
     color: white;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .container {
         padding: 20px;
     }
 
-    .profile-card {
-        padding: 20px;
+    .profile-layout {
+        flex-direction: column;
+        gap: 20px;
+        padding: 30px 20px;
+    }
+
+    .bio-section {
+        text-align: center;
+    }
+
+    .image-section {
+        order: -1;
+    }
+
+    .image-section img {
+        max-width: 200px;
     }
 }

@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>{% block title %}Phillip Roelofsen - Portfolio{% endblock %}</title>
+    <title>Phillip Roelofsen</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="navbar">
         <div class="nav-links">
-            <a href="{{ url_for('main.index') }}" class="{% if active == 'home' %}active{% endif %}">Home</a>
+            <a href="{{ url_for('main.index') }}" class="{% if active == 'home' %}active{% endif %}">About</a>
             <a href="{{ url_for('main.contact') }}" class="{% if active == 'contact' %}active{% endif %}">Contact</a>
             <a href="{{ url_for('main.projects') }}" class="{% if active == 'projects' %}active{% endif %}">Projects</a>
         </div>
