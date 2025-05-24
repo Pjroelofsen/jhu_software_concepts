@@ -4,7 +4,7 @@
  
 PROJECT OVERVIEW
 This is a personal portfolio website built with Flask as part of the Johns 
-Hopkins University Software Concepts course. The website showcases my 
+Hopkins University EN.605.256 Modern Software Concepts Course. The website showcases my 
 professional background, contact information, and projects in a clean, 
 responsive design.
 
