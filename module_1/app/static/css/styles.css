@@ -6,7 +6,6 @@ body {
     color: #333;
 }
 
-/* Make all links blue, including visited links */
 a {
     color: #0066cc;
     text-decoration: none;
@@ -28,7 +27,6 @@ a:hover {
     justify-content: flex-end;
 }
 
-/* Removed .site-title styles since Portfolio title was removed */
 
 .nav-links a {
     color: white;
