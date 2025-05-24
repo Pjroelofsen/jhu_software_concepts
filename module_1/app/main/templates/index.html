@@ -1,14 +1,30 @@
-{% extends "base.html" %}
-
-{% block content %}
-<h1>Phil Roelofsen</h1>
-<h2>Systems Engineer</h2>
-<div class="container">
-    <div class="left">
-        <p>Hello! I am Phil Roelofsen, a Systems Engineer at Northrop Grumman and student at Johns Hopkins University. My undergraduate degree is in Engineering Physics and I am currently pursuing a Masters Degree in Data Science. At Northrop Grumman, I am a Systems Integration and Test Engineer in the Microelectronics Design and Applications Business Unit.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Phillip Roelofsen</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="{{ url_for('main.index') }}" class="{% if active == 'home' %}active{% endif %}">Home</a>
+            <a href="{{ url_for('main.contact') }}" class="{% if active == 'contact' %}active{% endif %}">Contact</a>
+            <a href="{{ url_for('main.projects') }}" class="{% if active == 'projects' %}active{% endif %}">Projects</a>
+        </div>
     </div>
-    <div class="right">
-        <img src="{{ url_for('static', filename='images/profile.jpeg') }}" alt="Profile Picture" style="max_width: 300px; border-radius: 10px;">
+    <div class="container">
+        <div class="profile-card">
+            <img src="{{ url_for('static', filename='images/profile.jpeg') }}" alt="Profile Photo">
+            <h1>Phillip Roelofsen</h1>
+            <p class="subtitle">Software Concepts Portfolio</p>
+            <p>LinkedIn:
+                <a class="linkedin-btn" href="https://www.linkedin.com/in/phillip-roelofsen-ab5356189/" target="_blank">
+                    View Profile
+                </a>
+            </p>
+        </div>
     </div>
-</div>
-{% endblock %}
+</body>
+</html>

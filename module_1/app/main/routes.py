@@ -2,7 +2,7 @@ from flask import render_template
 from . import main
 
 @main.route('/')
-def home():
+def index():  # Changed from 'home' to 'index'
     return render_template('index.html', active='home')
 
 @main.route('/contact')
