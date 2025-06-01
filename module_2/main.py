@@ -1,6 +1,6 @@
 """
 GradCafe Main Processing Script
-Module 1 Assignment - JHU Software Concepts
+Module 2 Assignment - JHU Software Concepts
 
 This is the main script that orchestrates the entire GradCafe data collection and cleaning process.
 It runs scrape.py followed by clean.py with optimizations for large datasets.
@@ -12,7 +12,7 @@ Features:
 - Error handling and recovery
 - Memory-efficient processing
 
-Author: [Your Name]
+Author: Phillip Roelofsen
 Date: June 2025
 Python Version: 3.10+
 """
