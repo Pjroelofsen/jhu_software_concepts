@@ -333,6 +333,9 @@ For issues or questions:
 3. Start with smaller datasets to isolate problems
 4. Ensure all dependencies are properly installed
 
+## Known Bugs
+
+The only bug I am currently aware of is that the season/term is not correctly extracted from the main survey URL. I was able to successfully extract the other fields in my scrape.py file. The clean.py file does not currently include all of the necessary information provided in the Module assignment documentation. To remedy this, I plan to work with an AI assistant to correctly extract the HTML portion that relates to the season/term the student intends to enroll in. I intend to use the inspect tool to dig into the HTML to find where the season/term is located to properly extract it.
 ---
 
 **Happy scraping! 🎓📊**
