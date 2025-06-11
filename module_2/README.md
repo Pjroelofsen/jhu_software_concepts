@@ -7,7 +7,7 @@ This project scrapes graduate application data from The GradCafe survey pages an
 * **Parallel scraping**: Uses `concurrent.futures.ThreadPoolExecutor` with HTTP keep-alive (`requests.Session`) for speed.
 * **Configurable target**: Specify how many entries to collect (`TARGET` in `main.py`).
 * **In-memory cleaning**: Collapses whitespace, strips unwanted artifacts, and extracts eight key fields.
-* **One-step execution**: Run `main.py` to scrape and clean; outputs `cleaned_applicant_data.json`.
+* **One-step execution**: Run `main.py` to scrape and clean; outputs `applicant_data.json`.
 
 ## Prerequisites
 
@@ -59,7 +59,7 @@ This will:
 
 1. Scrape survey pages starting from page 1 until it collects `TARGET` entries.
 2. Clean the raw data in memory (no intermediate JSON files).
-3. Write the final output to `cleaned_applicant_data.json`.
+3. Write the final output to `applicant_data.json`.
 
 ## Output
 
@@ -79,7 +79,7 @@ The output JSON contains an array of objects, each with the following fields:
 ```
 ├── main.py
 ├── requirements.txt
-├── cleaned_applicant_data.json  # generated output
+├── applicant_data.json  # generated output
 └── README.md
 ```
 
