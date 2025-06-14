@@ -1,0 +1,158 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.pizza &mdash; pizza_app 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pizza_app
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pizza_app</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">src.pizza</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for src.pizza</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module defines the Pizza class, which represents a single pizza with its crust, sauce, cheese, and optional toppings,</span>
+<span class="sd">and can compute its total cost.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Pizza">
+<a class="viewcode-back" href="../../src.pizza.html#src.pizza.Pizza">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Pizza</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to represent an individual pizza</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        crust (str): The crust of the pizza.</span>
+<span class="sd">        sauce (str): The sauce of the pizza.</span>
+<span class="sd">        cheese (str): The type of cheese on the pizza.</span>
+<span class="sd">        toppings (List[str]): A list of toppings on the pizza.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">CRUST_PRICES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;thin&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;thick&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;gluten free&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">}</span>
+    <span class="n">SAUCE_PRICES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;marinara&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;pesto&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;liv&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+    <span class="n">TOPPING_PRICES</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;pineapple&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;pepperoni&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;mushrooms&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">crust</span><span class="p">,</span> <span class="n">sauce</span><span class="p">,</span> <span class="n">cheese</span><span class="p">,</span> <span class="n">toppings</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a new Pizza instance.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If crust type is not one of the known bases.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crust</span> <span class="o">=</span> <span class="n">crust</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sauce</span> <span class="o">=</span> <span class="n">sauce</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cheese</span> <span class="o">=</span> <span class="n">cheese</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toppings</span> <span class="o">=</span> <span class="n">toppings</span>
+
+<div class="viewcode-block" id="Pizza.cost">
+<a class="viewcode-back" href="../../src.pizza.html#src.pizza.Pizza.cost">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the total cost of this pizza.</span>
+
+<span class="sd">        Combines:</span>
+<span class="sd">          - Crust cost</span>
+<span class="sd">          - Sauce cost</span>
+<span class="sd">          - Topping cost</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: The total cost of the pizza.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CRUST_PRICES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">crust</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SAUCE_PRICES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sauce</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">topping</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">toppings</span><span class="p">:</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TOPPING_PRICES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">topping</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">total</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Pizza with </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">crust</span><span class="si">}</span><span class="s2"> crust, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sauce</span><span class="si">}</span><span class="s2"> sauce, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cheese</span><span class="si">}</span><span class="s2">, toppings: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toppings</span><span class="p">)</span><span class="si">}</span><span class="s2">. Cost: $</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Phil Roelofsen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
