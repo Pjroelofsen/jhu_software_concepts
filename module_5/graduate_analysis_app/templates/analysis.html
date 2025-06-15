@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grad School Cafe Data Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background-color: #ffffff;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: left;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 16px;
+            font-weight: normal;
+            color: #333;
+            margin: 0;
+        }
+
+        .analysis-section h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .question-block {
+            background-color: #f5f5f5;
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 0;
+        }
+
+        .question {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .answer {
+            font-size: 14px;
+            color: #333;
+            font-style: italic;
+        }
+
+        .answer-label {
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-style: italic;
+            color: #666;
+        }
+
+        .error {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .question {
+                font-size: 13px;
+            }
+            
+            .answer {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Grad School Cafe Data Analysis</h1>
+        </div>
+
+        <div class="analysis-section">
+            <h2>Analysis</h2>
+
+            {% if data %}
+                <div class="question-block">
+                    <div class="question">
+                        How many entries do you have in your database who have applied for Fall 2024?
+                    </div>
+                    <div class="answer">
+                        <span class="answer-label">Answer:</span> Applicant count: {{ "{:,}".format(data.fall_2024_count) }}
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <div class="question">
+                        What percentage of entries are from International students (not American or Other) (to two decimal places)?
+                    </div>
+                    <div class="answer">
+                        <span class="answer-label">Answer:</span> Percent International: {{ data.international_percentage }}
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <div class="question">
+                        What is the average GPA, GRE, GRE V, GRE AW of applicants who provided these metrics?
+                    </div>
+                    <div class="answer">
+                        <span class="answer-label">Answer:</span> Average GPA: {{ data.avg_gpa }}, Average GRE: {{ data.avg_gre_quant }}, Average GRE V: {{ data.avg_gre_verbal }}, Average GRE AW: {{ data.avg_gre_writing }}
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <div class="question">
+                        What is the average GPA of American students in Fall 2024?
+                    </div>
+                    <div class="answer">
+                        <span class="answer-label">Answer:</span> Average GPA American: {{ data.avg_gpa_american_fall2024 }}
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <div class="question">
+                        What percent of entries for Fall 2024 are Acceptances (to two decimal places)?
+                    </div>
+                    <div class="answer">
+                        <span class="answer-label">Answer:</span> Acceptance percent: {{ data.acceptance_percentage }}
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <div class="question">
+                        What is the average GPA of applicants who applied for Fall 2024 who are Acceptances?
+                    </div>
+                    <div class="answer">
+                        <span class="answer-label">Answer:</span> Average GPA Acceptance: {{ data.avg_gpa_accepted_fall2024 }}
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <div class="question">
+                        How many entries are from applicants who applied to JHU for Masters Degrees in Computer Science?
+                    </div>
+                    <div class="answer">
+                        <span class="answer-label">Answer:</span> JHU Masters Computer Science count: {{ data.jhu_cs_masters_count }}
+                    </div>
+                </div>
+
+            {% else %}
+                <div class="error">
+                    <p>Unable to load data. Please check your database connection and try again.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
