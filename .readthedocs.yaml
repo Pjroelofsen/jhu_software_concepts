@@ -1,19 +1,23 @@
-# jhu_software_concepts/.readthedocs.yaml
+# Read the Docs configuration file
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+
+# Required
 version: 2
 
+# Set the OS, Python version, and other tools you might need
 build:
   os: ubuntu-24.04
   tools:
     python: "3.13"
 
+# Build documentation in the "docs/" directory with Sphinx
 sphinx:
-  # point RTD at your module_4 Sphinx conf.py
-  configuration: module_4/docs/source/conf.py
+   configuration: module_4/docs/source/conf.py
 
-python:
-  version: 3.10
-  install:
-    # 1) install your docs/build deps
-    - pip install -r module_4/requirements.txt
-    # 2) install your module so `import src.pizza` works
-    - pip install module_4/
+# Optionally, but recommended,
+# declare the Python requirements required to build your documentation
+# See https://docs.readthedocs.io/en/stable/guides/reproducible-builds.html
+# python:
+#    install:
+#    - requirements: docs/requirements.txt
+        
