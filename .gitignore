@@ -1,0 +1,3 @@
+# Ignore Python virtual environments
+venv/
+module_5/venv/
