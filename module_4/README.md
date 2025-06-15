@@ -1,5 +1,7 @@
 # Pizza Application
 
+[![Documentation Status](https://readthedocs.org/projects/module-4-rtd/badge/?version=latest)](https://module-4-rtd.readthedocs.io/en/latest/modules.html)
+
 A simple Python package for building and totaling pizza orders, plus generated Sphinx documentation.
 
 ## Overview
@@ -66,6 +68,12 @@ We use Sphinx with the ReadTheDocs theme and Napoleon for Google-style docstring
    ```
 3. Open `docs/build/html/index.html` in your browser.  
 
+## Documentation
+
+Full API docs are hosted on Read the Docs:
+
+🔗 https://module-4-rtd.readthedocs.io/en/latest/modules.html
+
 ## Project Structure
 
 ```
@@ -84,4 +92,4 @@ your-project/
 │       └── src.order.rst
 ├── requirements.txt
 └── README.md
-```  
+```
