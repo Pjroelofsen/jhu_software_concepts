@@ -5,7 +5,7 @@
 
 # Documentation dependencies
 sphinx>=7.0.0,<8.0.0
-sphinx-autobuild>=2023.14.1,<2024.0.0
+sphinx-autobuild>=2023.14.1
 sphinx-rtd-theme>=1.3.0,<2.0.0
 
 # Testing dependencies (optional, if you add tests)
