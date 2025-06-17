@@ -3,7 +3,7 @@
 from flask import Flask, render_template
 import psycopg2
 from psycopg2.extras import RealDictCursor
-
+from psycopg2 import sql
 
 app = Flask(__name__)
 
@@ -15,26 +15,26 @@ DB_CONFIG = {
     'port': '5432'
 }
 
+
 def get_connection():
     """Create and return a database connection."""
     try:
-        conn = psycopg2.connect(**DB_CONFIG)
-        return conn
+        return psycopg2.connect(**DB_CONFIG)
     except psycopg2.Error as err:
         print(f"Error connecting to database: {err}")
         return None
 
-def execute_query(query, description="Query"):
-    """Execute a query and return results with error handling."""
+
+def execute_query(query, params=None, description="Query"):
+    """Execute a SQL object with optional parameters and return results with error handling."""
     conn = None
     try:
         conn = get_connection()
         if not conn:
             return None
         cur = conn.cursor(cursor_factory=RealDictCursor)
-        cur.execute(query)
-        results = cur.fetchall()
-        return results
+        cur.execute(query, params)
+        return cur.fetchall()
     except psycopg2.Error as err:
         print(f"Error executing {description}: {err}")
         return None
@@ -42,113 +42,129 @@ def execute_query(query, description="Query"):
         if conn:
             conn.close()
 
+
+# Composed SQL statements with identifiers, placeholders, and inherent limits
+TABLE = sql.Identifier('application_data')
+
+SQL_FALL_2024_COUNT = sql.SQL(
+    "SELECT COUNT(*) AS fall_2024_count FROM {tbl} WHERE term = %s LIMIT 1"
+).format(tbl=TABLE)
+
+SQL_INTERNATIONAL_PERCENTAGE = sql.SQL(
+    "SELECT "
+    "COUNT(*) AS total_entries, "
+    "COUNT(CASE WHEN us_or_international = %s THEN 1 END) AS international_entries, "
+    "ROUND((COUNT(CASE WHEN us_or_international = %s THEN 1 END) * 100.0 / COUNT(*)), 2) "
+    "AS international_percentage FROM {tbl} LIMIT 1"
+).format(tbl=TABLE)
+
+SQL_AVERAGE_SCORES = sql.SQL(
+    "SELECT "
+    "ROUND(AVG(gpa)::NUMERIC, 2) AS avg_gpa, "
+    "ROUND(AVG(gre)::NUMERIC, 2) AS avg_gre_quant, "
+    "ROUND(AVG(gre_v)::NUMERIC, 2) AS avg_gre_verbal, "
+    "ROUND(AVG(gre_aw)::NUMERIC, 2) AS avg_gre_writing "
+    "FROM {tbl} LIMIT 1"
+).format(tbl=TABLE)
+
+SQL_AVG_GPA_AMERICAN_FALL2024 = sql.SQL(
+    "SELECT ROUND(AVG(gpa)::NUMERIC, 2) AS avg_gpa_american_fall2024 "
+    "FROM {tbl} WHERE us_or_international = %s AND term = %s AND gpa IS NOT NULL LIMIT 1"
+).format(tbl=TABLE)
+
+SQL_ACCEPTANCE_RATE = sql.SQL(
+    "SELECT ROUND((COUNT(CASE WHEN status LIKE %s THEN 1 END) * 100.0 / COUNT(*))::NUMERIC, 2) "
+    "AS acceptance_percentage FROM {tbl} WHERE term = %s LIMIT 1"
+).format(tbl=TABLE)
+
+SQL_AVG_GPA_ACCEPTED_FALL2024 = sql.SQL(
+    "SELECT ROUND(AVG(gpa)::NUMERIC, 2) AS avg_gpa_accepted_fall2024 "
+    "FROM {tbl} WHERE term = %s AND status LIKE %s AND gpa IS NOT NULL LIMIT 1"
+).format(tbl=TABLE)
+
+SQL_JHU_CS_MASTERS_COUNT = sql.SQL(
+    "SELECT COUNT(*) AS jhu_cs_masters_count FROM {tbl}"
+    "WHERE (program ILIKE %s OR program ILIKE %s)"
+    "AND program ILIKE %s AND degree ILIKE %s LIMIT 1"
+).format(tbl=TABLE)
+
+
 def get_all_analysis_data():
-    """Get all analysis data by running all queries."""
+    """Get all analysis data by running each composed SQL statement with placeholders."""
     data = {}
-    # Query 1: Fall 2024 count
-    query1 = "SELECT COUNT(*) as fall_2024_count FROM application_data WHERE term = 'Fall 2024';"
-    result1 = execute_query(query1, "Fall 2024 Count")
-    data['fall_2024_count'] = result1[0]['fall_2024_count'] if result1 else 0
-    # Query 2: International percentage
-    query2 = """
-    SELECT 
-        COUNT(*) as total_entries,
-        COUNT(CASE WHEN us_or_international = 'International' THEN 1 END) as international_entries,
-        ROUND(
-            (COUNT(CASE WHEN us_or_international = 'International' THEN 1 END) * 100.0 / COUNT(*)), 
-            2
-        ) as international_percentage
-    FROM application_data;
-    """
-    result2 = execute_query(query2, "International Percentage")
-    if result2:
-        data['total_entries'] = result2[0]['total_entries']
-        data['international_entries'] = result2[0]['international_entries']
-        data['international_percentage'] = result2[0]['international_percentage']
+
+    # Query 1
+    res1 = execute_query(SQL_FALL_2024_COUNT, ('Fall 2024',), "Fall 2024 Count")
+    data['fall_2024_count'] = res1[0]['fall_2024_count'] if res1 else 0
+
+    # Query 2
+    res2 = execute_query(
+        SQL_INTERNATIONAL_PERCENTAGE,
+        ('International', 'International'),
+        "International Percentage"
+    )
+    if res2:
+        data['total_entries'] = res2[0]['total_entries']
+        data['international_entries'] = res2[0]['international_entries']
+        data['international_percentage'] = res2[0]['international_percentage']
     else:
-        data['total_entries'] = 0
-        data['international_entries'] = 0
-        data['international_percentage'] = 0
-    # Query 3: Average scores
-    query3 = """
-    SELECT 
-        COUNT(gpa) as gpa_count,
-        ROUND(AVG(gpa)::NUMERIC, 2) as avg_gpa,
-        COUNT(gre) as gre_quant_count,
-        ROUND(AVG(gre)::NUMERIC, 2) as avg_gre_quant,
-        COUNT(gre_v) as gre_verbal_count,
-        ROUND(AVG(gre_v)::NUMERIC, 2) as avg_gre_verbal,
-        COUNT(gre_aw) as gre_writing_count,
-        ROUND(AVG(gre_aw)::NUMERIC, 2) as avg_gre_writing
-    FROM application_data;
-    """
-    result3 = execute_query(query3, "Average Scores")
-    if result3:
-        data['avg_gpa'] = result3[0]['avg_gpa']
-        data['avg_gre_quant'] = result3[0]['avg_gre_quant']
-        data['avg_gre_verbal'] = result3[0]['avg_gre_verbal']
-        data['avg_gre_writing'] = result3[0]['avg_gre_writing']
+        data.update({
+            'total_entries': 0,
+            'international_entries': 0,
+            'international_percentage': 0
+        })
+
+    # Query 3
+    res3 = execute_query(SQL_AVERAGE_SCORES, None, "Average Scores")
+    if res3:
+        data.update({
+            'avg_gpa': res3[0]['avg_gpa'],
+            'avg_gre_quant': res3[0]['avg_gre_quant'],
+            'avg_gre_verbal': res3[0]['avg_gre_verbal'],
+            'avg_gre_writing': res3[0]['avg_gre_writing']
+        })
     else:
-        data['avg_gpa'] = 0
-        data['avg_gre_quant'] = 0
-        data['avg_gre_verbal'] = 0
-        data['avg_gre_writing'] = 0
-    # Query 4: American GPA Fall 2024
-    query4 = """
-    SELECT 
-        COUNT(gpa) as american_students_with_gpa,
-        ROUND(AVG(gpa)::NUMERIC, 2) as avg_gpa_american_fall2024
-    FROM application_data 
-    WHERE us_or_international = 'American' 
-      AND term = 'Fall 2024' 
-      AND gpa IS NOT NULL;
-    """
-    result4 = execute_query(query4, "American GPA Fall 2024")
-    data['avg_gpa_american_fall2024'] = result4[0]['avg_gpa_american_fall2024'] if result4 else 0
-    # Query 5: Fall 2024 acceptance rate
-    query5 = """
-    SELECT 
-        COUNT(*) as total_fall2024,
-        COUNT(CASE WHEN status LIKE '%Accept%' THEN 1 END) as acceptances,
-        ROUND(
-            (COUNT(CASE WHEN status LIKE '%Accept%' THEN 1 END) * 100.0 / COUNT(*))::NUMERIC, 
-            2
-        ) as acceptance_percentage
-    FROM application_data 
-    WHERE term = 'Fall 2024';
-    """
-    result5 = execute_query(query5, "Fall 2024 Acceptance Rate")
-    if result5:
-        data['acceptance_percentage'] = result5[0]['acceptance_percentage']
-        data['total_fall2024'] = result5[0]['total_fall2024']
-        data['acceptances'] = result5[0]['acceptances']
-    else:
-        data['acceptance_percentage'] = 0
-        data['total_fall2024'] = 0
-        data['acceptances'] = 0
-    # Query 6: Accepted GPA Fall 2024
-    query6 = """
-    SELECT 
-        COUNT(gpa) as accepted_students_with_gpa,
-        ROUND(AVG(gpa)::NUMERIC, 2) as avg_gpa_accepted_fall2024
-    FROM application_data 
-    WHERE term = 'Fall 2024' 
-      AND status LIKE '%Accept%'
-      AND gpa IS NOT NULL;
-    """
-    result6 = execute_query(query6, "Accepted GPA Fall 2024")
-    data['avg_gpa_accepted_fall2024'] = result6[0]['avg_gpa_accepted_fall2024'] if result6 else 0
-    # Query 7: JHU CS Masters
-    query7 = """
-    SELECT COUNT(*) as jhu_cs_masters_count
-    FROM application_data 
-    WHERE (program ILIKE '%johns hopkins%' OR program ILIKE '%jhu%')
-      AND program ILIKE '%computer science%'
-      AND degree ILIKE '%masters%';
-    """
-    result7 = execute_query(query7, "JHU CS Masters")
-    data['jhu_cs_masters_count'] = result7[0]['jhu_cs_masters_count'] if result7 else 0
+        data.update({
+            'avg_gpa': 0,
+            'avg_gre_quant': 0,
+            'avg_gre_verbal': 0,
+            'avg_gre_writing': 0
+        })
+
+    # Query 4
+    res4 = execute_query(
+        SQL_AVG_GPA_AMERICAN_FALL2024,
+        ('American', 'Fall 2024'),
+        "American GPA Fall 2024"
+    )
+    data['avg_gpa_american_fall2024'] = res4[0]['avg_gpa_american_fall2024'] if res4 else 0
+
+    # Query 5
+    res5 = execute_query(
+        SQL_ACCEPTANCE_RATE,
+        ('%Accept%', 'Fall 2024'),
+        "Fall 2024 Acceptance Rate"
+    )
+    data['acceptance_percentage'] = res5[0]['acceptance_percentage'] if res5 else 0
+
+    # Query 6
+    res6 = execute_query(
+        SQL_AVG_GPA_ACCEPTED_FALL2024,
+        ('Fall 2024', '%Accept%'),
+        "Accepted GPA Fall 2024"
+    )
+    data['avg_gpa_accepted_fall2024'] = res6[0]['avg_gpa_accepted_fall2024'] if res6 else 0
+
+    # Query 7
+    res7 = execute_query(
+        SQL_JHU_CS_MASTERS_COUNT,
+        ('%johns hopkins%', '%jhu%', '%computer science%', '%masters%'),
+        "JHU CS Masters"
+    )
+    data['jhu_cs_masters_count'] = res7[0]['jhu_cs_masters_count'] if res7 else 0
+
     return data
+
 
 @app.route('/')
 def index():
@@ -157,17 +173,20 @@ def index():
         analysis_data = get_all_analysis_data()
         return render_template('analysis.html', data=analysis_data)
     except Exception as err:  # pylint: disable=broad-exception-caught
-        return f"Error loading data: {str(err)}", 500
+        return f"Error loading data: {err}", 500
+
 
 @app.errorhandler(404)
 def not_found(_error):
     """Handle 404 errors."""
     return "Page not found", 404
 
+
 @app.errorhandler(500)
 def internal_error(_error):
     """Handle 500 internal errors."""
     return "Internal server error", 500
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
