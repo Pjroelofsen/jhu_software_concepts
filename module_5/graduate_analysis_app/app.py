@@ -1,7 +1,9 @@
+"""Flask application for graduate analysis data visualizations."""
+
 from flask import Flask, render_template
 import psycopg2
 from psycopg2.extras import RealDictCursor
-import sys
+
 
 app = Flask(__name__)
 
@@ -18,8 +20,8 @@ def get_connection():
     try:
         conn = psycopg2.connect(**DB_CONFIG)
         return conn
-    except psycopg2.Error as e:
-        print(f"Error connecting to database: {e}")
+    except psycopg2.Error as err:
+        print(f"Error connecting to database: {err}")
         return None
 
 def execute_query(query, description="Query"):
@@ -33,8 +35,8 @@ def execute_query(query, description="Query"):
         cur.execute(query)
         results = cur.fetchall()
         return results
-    except psycopg2.Error as e:
-        print(f"Error executing {description}: {e}")
+    except psycopg2.Error as err:
+        print(f"Error executing {description}: {err}")
         return None
     finally:
         if conn:
@@ -43,12 +45,10 @@ def execute_query(query, description="Query"):
 def get_all_analysis_data():
     """Get all analysis data by running all queries."""
     data = {}
-    
     # Query 1: Fall 2024 count
     query1 = "SELECT COUNT(*) as fall_2024_count FROM application_data WHERE term = 'Fall 2024';"
     result1 = execute_query(query1, "Fall 2024 Count")
     data['fall_2024_count'] = result1[0]['fall_2024_count'] if result1 else 0
-    
     # Query 2: International percentage
     query2 = """
     SELECT 
@@ -69,7 +69,6 @@ def get_all_analysis_data():
         data['total_entries'] = 0
         data['international_entries'] = 0
         data['international_percentage'] = 0
-    
     # Query 3: Average scores
     query3 = """
     SELECT 
@@ -94,7 +93,6 @@ def get_all_analysis_data():
         data['avg_gre_quant'] = 0
         data['avg_gre_verbal'] = 0
         data['avg_gre_writing'] = 0
-    
     # Query 4: American GPA Fall 2024
     query4 = """
     SELECT 
@@ -107,7 +105,6 @@ def get_all_analysis_data():
     """
     result4 = execute_query(query4, "American GPA Fall 2024")
     data['avg_gpa_american_fall2024'] = result4[0]['avg_gpa_american_fall2024'] if result4 else 0
-    
     # Query 5: Fall 2024 acceptance rate
     query5 = """
     SELECT 
@@ -129,7 +126,6 @@ def get_all_analysis_data():
         data['acceptance_percentage'] = 0
         data['total_fall2024'] = 0
         data['acceptances'] = 0
-    
     # Query 6: Accepted GPA Fall 2024
     query6 = """
     SELECT 
@@ -142,7 +138,6 @@ def get_all_analysis_data():
     """
     result6 = execute_query(query6, "Accepted GPA Fall 2024")
     data['avg_gpa_accepted_fall2024'] = result6[0]['avg_gpa_accepted_fall2024'] if result6 else 0
-    
     # Query 7: JHU CS Masters
     query7 = """
     SELECT COUNT(*) as jhu_cs_masters_count
@@ -153,7 +148,6 @@ def get_all_analysis_data():
     """
     result7 = execute_query(query7, "JHU CS Masters")
     data['jhu_cs_masters_count'] = result7[0]['jhu_cs_masters_count'] if result7 else 0
-    
     return data
 
 @app.route('/')
@@ -162,15 +156,17 @@ def index():
     try:
         analysis_data = get_all_analysis_data()
         return render_template('analysis.html', data=analysis_data)
-    except Exception as e:
-        return f"Error loading data: {str(e)}", 500
+    except Exception as err:  # pylint: disable=broad-exception-caught
+        return f"Error loading data: {str(err)}", 500
 
 @app.errorhandler(404)
-def not_found(error):
+def not_found(_error):
+    """Handle 404 errors."""
     return "Page not found", 404
 
 @app.errorhandler(500)
-def internal_error(error):
+def internal_error(_error):
+    """Handle 500 internal errors."""
     return "Internal server error", 500
 
 if __name__ == '__main__':

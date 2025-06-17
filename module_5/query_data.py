@@ -62,8 +62,11 @@ def query_2_international_percentage():
     query = (
         "SELECT "
         "COUNT(*) AS total_entries, "
-        "COUNT(CASE WHEN us_or_international = 'International' THEN 1 END) AS international_entries, "
-        "ROUND((COUNT(CASE WHEN us_or_international = 'International' THEN 1 END) * 100.0 / COUNT(*)), 2) AS international_percentage "
+        "COUNT(CASE WHEN us_or_international = 'International' THEN 1 "
+        "END) AS international_entries, "
+        "ROUND((COUNT(CASE WHEN us_or_international = 'International' THEN 1 "
+        "END) * 100.0 / COUNT(*)), 2) "
+        "AS international_percentage "
         "FROM application_data;"
     )
     results = execute_query(query, "International Percentage")
