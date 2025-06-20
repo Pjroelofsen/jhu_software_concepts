@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="contact-card">
+        <h1>Contact Me</h1>
+        <p>I'd love to hear from you! Feel free to reach out through any of the methods below.</p>
+        
+        <div class="contact-info">
+            <h3>Get In Touch</h3>
+            <p><strong>Email:</strong> <a href="mailto:proelof1@jh.edu">proelof1@jh.edu</a></p>
+            <p><strong>LinkedIn:</strong>
+                <a class="linkedin-btn" href="https://www.linkedin.com/in/phillip-roelofsen-ab5356189/" target="_blank">
+                    View Profile
+                </a>
+            </p>
+        </div>
+
+        <div class="contact-form-section">
+            <h3>For inquiries please send a message below</h3>
+            <form class="contact-form" action="#" method="POST">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

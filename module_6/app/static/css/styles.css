@@ -1,0 +1,277 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fa;
+    color: #333;
+}
+
+a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #0066cc;
+}
+
+a:hover {
+    color: #004499;
+    text-decoration: underline;
+}
+
+.navbar {
+    background-color: #004080;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+.nav-links a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.nav-links a:visited {
+    color: white;
+}
+
+.nav-links a:hover {
+    color: #cccccc;
+    text-decoration: none;
+}
+
+.nav-links .active {
+    border-bottom: 2px solid yellow;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    min-height: calc(100vh - 120px);
+}
+
+.profile-layout {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    width: 100%;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.bio-section {
+    flex: 2;
+    text-align: left;
+}
+
+.bio-section h1 {
+    margin: 0 0 5px 0;
+    font-size: 32px;
+    color: #333;
+}
+
+.bio-section .subtitle {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.image-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20px;
+}
+
+.image-section img {
+    max-width: 250px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.contact-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+}
+
+.projects-card {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    text-align: left;
+}
+
+.projects-card h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 32px;
+    color: #333;
+}
+
+.project-item {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.project-item h3 {
+    color: #004080;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.project-item p {
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.summary {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.summary h3 {
+    color: #004080;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.summary p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.contact-info {
+    margin-bottom: 30px;
+}
+
+.contact-form-section {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 20px;
+}
+
+.contact-form {
+    margin-top: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #004080;
+}
+
+.contact-form button {
+    background-color: #004080;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.contact-form button:hover {
+    background-color: #003366;
+}
+
+.github-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.github-btn:hover {
+    background-color: #555;
+}
+
+.github-btn:visited {
+    color: white;
+}
+
+.linkedin-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0077b5;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.linkedin-btn:hover {
+    background-color: #005f93;
+}
+
+.linkedin-btn:visited {
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    .profile-layout {
+        flex-direction: column;
+        gap: 20px;
+        padding: 30px 20px;
+    }
+
+    .bio-section {
+        text-align: center;
+    }
+
+    .image-section {
+        order: -1;
+    }
+
+    .image-section img {
+        max-width: 200px;
+    }
+}
